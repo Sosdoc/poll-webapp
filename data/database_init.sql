@@ -1,6 +1,6 @@
 # Create user and db
 CREATE USER golang WITH PASSWORD 'golang';
-CREATE DATABASE polls;
+CREATE DATABASE polldb;
 
 # rights
 GRANT ALL PRIVILEGES ON DATABASE polls TO golang;
