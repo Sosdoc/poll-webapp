@@ -8,17 +8,17 @@ import (
 // It has a numeric unique ID, a title/question and a list of possible Answers
 type Poll struct {
 	id      uint64
-	title   string
-	answers []Answer
+	Title   string   `json:"title"`
+	Answers []Answer `json:"answers"`
 }
 
 func NewPoll(title string, answers ...Answer) Poll {
 	id := uint64(0)
-	return Poll{id: id, title: title, answers: answers}
+	return Poll{id: id, Title: title, Answers: answers}
 }
 
 func (p Poll) String() string {
-	return fmt.Sprintf("Poll #%v, \"%s\"", p.id, p.title)
+	return fmt.Sprintf("Poll #%v, \"%s\"", p.id, p.Title)
 }
 
 // Answer represents a basic answer to a Poll
@@ -26,10 +26,10 @@ func (p Poll) String() string {
 // The 'other' flag is used for free form answer, in that case, the text is set by the user.
 type Answer struct {
 	id    uint32
-	text  string
-	other bool
+	Text  string `json:"text"`
+	Other bool   `json:"other"`
 }
 
 func NewAnswer(id uint32, text string, isOther bool) Answer {
-	return Answer{id: id, text: text, other: isOther}
+	return Answer{id: id, Text: text, Other: isOther}
 }
