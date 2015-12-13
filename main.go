@@ -16,8 +16,8 @@ func main() {
 		port = "8080"
 	}
 
-	http.HandleFunc("/poll", controllers.ReadPoll)
-	http.HandleFunc("/write", controllers.WritePoll)
+	http.HandleFunc("/show", controllers.ReadPoll)
+	http.HandleFunc("/create", controllers.WritePoll)
 
 	http.Handle("/", http.FileServer(http.Dir("static")))
 	http.ListenAndServe(":"+port, nil)

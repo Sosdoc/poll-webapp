@@ -55,8 +55,8 @@ func CreatePoll(p model.Poll) error {
 	}
 
 	for _, a := range p.Answers {
-		_, err = tx.Exec("INSERT INTO answers VALUES ($1, $2, $3, $4)",
-			a.ID, a.Text, pollID, false)
+		_, err = tx.Exec("INSERT INTO answer VALUES ($1, $2, $3, $4)",
+			a.ID, pollID, a.Text, false)
 
 		if err != nil {
 			return err
@@ -81,7 +81,7 @@ func GetPollByID(pollID uint64) (p *model.Poll, err error) {
 		return nil, err
 	}
 
-	rows, err := db.Query("SELECT id, title, other FROM answers WHERE poll_id=$1", pollID)
+	rows, err := db.Query("SELECT id, title, other FROM answer WHERE poll_id=$1", pollID)
 	if err != nil {
 		return nil, err
 	}

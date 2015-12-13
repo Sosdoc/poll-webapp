@@ -3,9 +3,10 @@ CREATE USER golang WITH PASSWORD 'golang';
 CREATE DATABASE polldb;
 
 # rights
-GRANT ALL PRIVILEGES ON DATABASE polls TO golang;
+GRANT ALL PRIVILEGES ON DATABASE polldb TO golang;
 
-# tables
+
+# table creation, these should be run as user golang
 
 CREATE TABLE polls(
     poll_id INTEGER NOT NULL,
@@ -25,7 +26,7 @@ CREATE TABLE answer(
     PRIMARY KEY( poll_id, id )
 );
 
-CREATE UNIQUE INDEX answer_id_idx ON answer(poll_id);
+CREATE INDEX answer_id_idx ON answer(poll_id);
 
 CREATE TABLE votes(
     answer_id INTEGER NOT NULL,
