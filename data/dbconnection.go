@@ -40,17 +40,17 @@ func getDBConnection() *sql.DB {
 // CreatePoll inserts the specified poll in the data storage.
 func CreatePoll(p model.Poll) error {
 	db := getDBConnection()
-	var pollID uint64
 
 	tx, err := db.Begin()
-
 	if err != nil {
 		return err
 	}
 
+	// pollID is needed to connect answers to the poll
+	var pollID int
+
 	err = tx.QueryRow("INSERT INTO polls (poll_id, title) VALUES (DEFAULT, $1) RETURNING poll_id",
 		p.Title).Scan(&pollID)
-
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,6 @@ func CreatePoll(p model.Poll) error {
 	for _, a := range p.Answers {
 		_, err = tx.Exec("INSERT INTO answer VALUES ($1, $2, $3, $4)",
 			a.ID, pollID, a.Text, false)
-
 		if err != nil {
 			return err
 		}
@@ -72,9 +71,11 @@ func CreatePoll(p model.Poll) error {
 	return nil
 }
 
-// GetPollByID retrieves a Poll from the data storage using its unique (indexed) ID.
-func GetPollByID(pollID uint64) (p *model.Poll, err error) {
+// GetPollByHashID retrieves a Poll from the data storage using its unique hash ID.
+func GetPollByHashID(hash string) (p *model.Poll, err error) {
 	db := getDBConnection()
+	pollID := model.DecodePollID(hash)
+
 	var pollTitle string
 	err = db.QueryRow("SELECT title FROM polls WHERE poll_id=$1", pollID).Scan(&pollTitle)
 
@@ -99,10 +100,10 @@ func GetPollByID(pollID uint64) (p *model.Poll, err error) {
 		)
 
 		err = rows.Scan(&answerID, &title, &other)
-		answers = append(answers, model.NewAnswer(uint32(answerID), title, other))
+		answers = append(answers, model.NewAnswer(answerID, title, other))
 	}
 
-	poll := model.NewPoll(pollID, pollTitle, answers...)
+	poll := model.NewPollWithHash(hash, pollTitle, answers...)
 
 	return &poll, nil
 }
