@@ -11,7 +11,12 @@ import (
 // ReadPoll retrieves a Poll and writes it as a JSON object
 func ReadPoll(rw http.ResponseWriter, r *http.Request) {
 	// TODO: get poll id from request
-	pollID := "aaaaa"
+	pollID, err := model.EncodePollID(1)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	poll, err := data.GetPollByHashID(pollID)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
