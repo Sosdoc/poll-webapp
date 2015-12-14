@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/sosdoc/polls/controllers"
 	"os"
 
-	// postgres driver
-	_ "github.com/lib/pq"
+	"github.com/sosdoc/poll-webapp/controllers"
+
 	"net/http"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {

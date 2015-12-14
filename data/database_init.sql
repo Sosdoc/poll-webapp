@@ -9,7 +9,7 @@ GRANT ALL PRIVILEGES ON DATABASE polldb TO golang;
 # table creation, these should be run as user golang
 
 CREATE TABLE polls(
-    poll_id INTEGER NOT NULL,
+    poll_id SERIAL,
     title VARCHAR(1000) NOT NULL,
 
     PRIMARY KEY( poll_id )

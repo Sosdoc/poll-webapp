@@ -6,7 +6,8 @@ package data
 import (
 	"database/sql"
 	"fmt"
-	"github.com/sosdoc/polls/model"
+
+	"github.com/sosdoc/poll-webapp/model"
 )
 
 var dbInstance *sql.DB
@@ -39,7 +40,7 @@ func getDBConnection() *sql.DB {
 // CreatePoll inserts the specified poll in the data storage.
 func CreatePoll(p model.Poll) error {
 	db := getDBConnection()
-	pollID := 0 // should get a random hashid or similar
+	var pollID uint64
 
 	tx, err := db.Begin()
 
@@ -47,8 +48,8 @@ func CreatePoll(p model.Poll) error {
 		return err
 	}
 
-	_, err = tx.Exec("INSERT INTO polls VALUES ($1, $2)",
-		p.ID, p.Title)
+	err = tx.QueryRow("INSERT INTO polls (poll_id, title) VALUES (DEFAULT, $1) RETURNING poll_id",
+		p.Title).Scan(&pollID)
 
 	if err != nil {
 		return err

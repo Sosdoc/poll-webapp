@@ -2,9 +2,10 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/sosdoc/polls/data"
-	"github.com/sosdoc/polls/model"
 	"net/http"
+
+	"github.com/sosdoc/poll-webapp/data"
+	"github.com/sosdoc/poll-webapp/model"
 )
 
 // ReadPoll retrieves a Poll and writes it as a JSON object
@@ -12,7 +13,6 @@ func ReadPoll(rw http.ResponseWriter, r *http.Request) {
 	// TODO: get poll id from request
 	pollID := uint64(0)
 	poll, err := data.GetPollByID(pollID)
-
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
