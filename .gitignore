@@ -26,3 +26,6 @@ _testmain.go
 # exclude the executable by the name
 polls
 poll-webapp
+
+# exclude built app.js
+app.js

@@ -8,8 +8,10 @@ namespace Polls {
 		static $inject: Array<string> = ['$scope'];
 
 		constructor(private $scope: ng.IScope) {
-			this.scope = $scope;
 		}
 
+		public GetMessage(): string {
+			return "Done";
+		}
 	}
 }
