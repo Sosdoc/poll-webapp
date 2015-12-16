@@ -11,20 +11,17 @@ import (
 // ReadPoll retrieves a Poll and writes it as a JSON object
 func ReadPoll(rw http.ResponseWriter, r *http.Request) {
 	// TODO: get poll id from request
-	pollID, err := model.EncodePollID(1)
-	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	query := r.URL.Query()
 
-	poll, err := data.GetPollByHashID(pollID)
+	hashID := query.Get("id")
+
+	poll, err := data.GetPollByHashID(hashID)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	js, err := json.Marshal(poll)
-
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -38,11 +35,16 @@ func ReadPoll(rw http.ResponseWriter, r *http.Request) {
 // It will try to insert the poll in the data storage.
 func WritePoll(rw http.ResponseWriter, r *http.Request) {
 	// TODO: get the poll from form data
-	yes := model.NewAnswer(0, "Yes", false)
-	no := model.NewAnswer(1, "No", false)
-	poll := model.NewPoll("Do you like turtles?", yes, no)
+	var poll model.Poll
+	decoder := json.NewDecoder(r.Body)
 
-	err := data.CreatePoll(poll)
+	err := decoder.Decode(&poll)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = data.CreatePoll(poll)
 
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
