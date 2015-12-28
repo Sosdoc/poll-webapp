@@ -1,14 +1,13 @@
 {
     "compilerOptions": {
-        "target": "ES5",
+        "target": "es5",
         "module": "amd",
         "removeComments": true,
+        "jsx": "react",
         "out": "static/js/app.js",
         "sourceMap": false
     },
-    "files": [
-        "scripts/model/model.ts",
-        "scripts/controllers/create.ts",
-        "scripts/index.ts"
+    "exclude": [
+        "scripts/typings"
     ]
 }
