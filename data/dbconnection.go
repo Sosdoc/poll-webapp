@@ -107,3 +107,15 @@ func GetPollByHashID(hash string) (p *model.Poll, err error) {
 
 	return &poll, nil
 }
+
+// InsertVote creates a new vote for the specified poll and answer combination.
+// It can fail if a wrong combination of answer/vote is specified
+func InsertVote(pollHashID string, answerID int) error {
+    db := getDBConnection()
+    pollID := model.DecodePollID(pollHashID)
+    
+    _, err := db.Exec("INSERT INTO votes (answer_id, poll_id, vote_time) VALUES ($1, $2, CURRENT_TIMESTAMP)",
+        answerID, pollID)
+    
+   return err
+}

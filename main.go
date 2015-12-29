@@ -19,6 +19,7 @@ func main() {
 
 	http.HandleFunc("/show", controllers.ReadPoll)
 	http.HandleFunc("/create", controllers.WritePoll)
+    http.HandleFunc("/vote", controllers.VoteOnPoll)
 
 	http.Handle("/", http.FileServer(http.Dir("static")))
 	http.ListenAndServe(":"+port, nil)
