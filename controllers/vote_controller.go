@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/sosdoc/poll-webapp/data"
+	"github.com/valep27/poll-webapp/data"
 )
 
 // VoteOnPoll retrieves a Poll and writes it as a JSON object

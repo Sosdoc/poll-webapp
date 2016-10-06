@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/sosdoc/poll-webapp/data"
-	"github.com/sosdoc/poll-webapp/model"
+	"github.com/valep27/poll-webapp/data"
+	"github.com/valep27/poll-webapp/model"
 )
 
 // ReadPoll retrieves a Poll and writes it as a JSON object

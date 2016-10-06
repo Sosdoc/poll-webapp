@@ -7,7 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/sosdoc/poll-webapp/model"
+	"github.com/valep27/poll-webapp/model"
 )
 
 var dbInstance *sql.DB
